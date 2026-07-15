@@ -6,10 +6,10 @@ class Solution:
         
         while left < right:
             width = right - left
-            current_height = min(height[left], height[right])
-            area = width * current_height
+            current_height = min(height[left], height[right])*(right - left)
+
             
-            max_area = max(max_area, area)
+            max_area = max(max_area,current_height )
             if height[left] < height[right]:
                 left += 1
             else:
