@@ -2,27 +2,27 @@ class Solution:
     def deleteAndEarn(self, nums: List[int]) -> int:
         if not nums:
             return 0
-        point_map = {}
+        points = {}
         for num in nums:
-            point_map[num] = point_map.get(num, 0) + num
-            
-        sorted_keys = sorted(point_map.keys())
-        
-        take = 0
-        skip = 0
-        prev_key = -1
-        
-        for key in sorted_keys:
-            current_points = point_map[key]
-        
-            if key == prev_key + 1:
-                new_take = skip + current_points
-                new_skip = max(take, skip)
+            points[num] = points.get(num, 0) + num
+
+       
+        unique_nums = sorted(points.keys())
+
+        two_back = 0  
+        one_back = 0 
+
+        for i in range(len(unique_nums)):
+            current_num = unique_nums[i]
+            current_points = points[current_num]
+
+            if i > 0 and current_num == unique_nums[i - 1] + 1:
+                current_max = max(one_back, two_back + current_points)
             else:
-                new_take = max(take, skip) + current_points
-                new_skip = max(take, skip)
                 
-            take, skip = new_take, new_skip
-            prev_key = key
-            
-        return max(take, skip)
+                current_max = one_back + current_points
+
+            two_back = one_back
+            one_back = current_max
+
+        return one_back
