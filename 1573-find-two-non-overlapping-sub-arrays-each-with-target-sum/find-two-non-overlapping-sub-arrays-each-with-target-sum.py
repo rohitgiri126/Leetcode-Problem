@@ -1,0 +1,24 @@
+class Solution:
+    def minSumOfLengths(self, arr: list[int], target: int) -> int:
+        n = len(arr)
+        min_len = [float("inf")] * (n + 1)
+        ans = float("inf")
+        curr_sum = 0
+        left = 0
+
+        for right in range(n):
+            curr_sum += arr[right]
+
+            while curr_sum > target and left <= right:
+                curr_sum -= arr[left]
+                left += 1
+
+            if curr_sum == target:
+                length = right - left + 1
+                if left > 0 and min_len[left] != float("inf"):
+                    ans = min(ans, length + min_len[left])
+                min_len[right + 1] = min(min_len[right], length)
+            else:
+                min_len[right + 1] = min_len[right]
+
+        return ans if ans != float("inf") else -1
